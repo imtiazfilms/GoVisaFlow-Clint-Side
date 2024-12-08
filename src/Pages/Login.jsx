@@ -6,9 +6,10 @@ import { authContext } from "../Components/AuthProvider";
 const Login = () => {
     const { handelGoogleLogin, handelLogin } = useContext(authContext);
     const [error, setError] = useState("");
-    const location = useLocation();
-    const navigate = useNavigate();
+    const location = useLocation(); // Get the current location
+    const navigate = useNavigate(); // Hook to navigate programmatically
 
+    // Handle login form submission
     const handelSubmit = (e) => {
         e.preventDefault();
         setError("");
@@ -18,19 +19,20 @@ const Login = () => {
 
         handelLogin(email, password)
             .then((res) => {
-                const redirectPath = location.state?.from?.pathname || "/";
-                navigate(redirectPath, { replace: true });
+                const redirectPath = location.state?.from?.pathname || "/"; // Get the redirect path from the location state, default to home
+                navigate(redirectPath, { replace: true }); // Navigate to the intended page
             })
             .catch(() => {
                 setError("Invalid email or password.");
             });
     };
 
+    // Google login method
     const googleLogin = () => {
         handelGoogleLogin()
             .then((res) => {
-                const redirectPath = location.state?.from?.pathname || "/";
-                navigate(redirectPath, { replace: true });
+                const redirectPath = location.state?.from?.pathname || "/"; // Get the redirect path from the location state, default to home
+                navigate(redirectPath, { replace: true }); // Navigate to the intended page
             })
             .catch(() => {
                 setError("Google login failed. Please try again.");
