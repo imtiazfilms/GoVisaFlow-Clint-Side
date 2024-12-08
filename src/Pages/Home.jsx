@@ -28,7 +28,7 @@ const Home = () => {
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-colors duration-300`}>
       <button
         onClick={toggleTheme}
-        className="absolute top-4 right-4 p-2 bg-white/80 text-black/80 rounded-full shadow-md focus:outline-none"
+        className="absolute md:top-4 md:right-4 top-8 right-8 p-2 bg-white/80 text-black/80 rounded-full shadow-md focus:outline-none"
       >
         {isDarkMode ? <MdOutlineWbSunny /> : <FaMoon />}
       </button>

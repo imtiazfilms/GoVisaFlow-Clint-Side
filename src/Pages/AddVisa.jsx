@@ -47,7 +47,7 @@ const AddVisa = () => {
             email: currentUser.email, 
         };
 
-        fetch("http://localhost:5000/visas", {
+        fetch("https://go-visa-flow-server-side.vercel.app/visas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(visaWithEmail),

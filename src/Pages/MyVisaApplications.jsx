@@ -21,7 +21,7 @@ const MyVisaApplications = () => {
 
   const fetchApplications = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:5000/myApplications?email=${email}`);
+      const response = await axios.get(`https://go-visa-flow-server-side.vercel.app/myApplications?email=${email}`);
       setApplications(response.data); 
       setFilteredApplications(response.data); 
     } catch (error) {
@@ -32,7 +32,7 @@ const MyVisaApplications = () => {
 
   const handleCancelApplication = async (applicationId) => {
     try {
-      await axios.delete(`http://localhost:5000/visaApplications/${applicationId}`);
+      await axios.delete(`https://go-visa-flow-server-side.vercel.app/visaApplications/${applicationId}`);
       setApplications((prevApplications) =>
         prevApplications.filter((app) => app._id !== applicationId)
       );

@@ -9,7 +9,7 @@ const LatestVisas = () => {
   useEffect(() => {
     const fetchLatestVisas = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/visas");
+        const response = await axios.get("https://go-visa-flow-server-side.vercel.app/visas");
         setVisas(response.data.slice(0, 6)); 
       } catch (error) {
         console.error("Error fetching visas:", error);

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase.config";
-import { signOut } from "firebase/auth"; 
+import { signOut } from "firebase/auth";
 import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth); 
+      await signOut(auth);
       setUser(null);
     } catch (error) {
       console.error("Error logging out:", error);
@@ -49,11 +49,23 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              <li><a>Home</a></li>
-              <li><a>All Visas</a></li>
-              <li><a>Add Visa</a></li>
-              <li><a>My Added Visas</a></li>
-              <li><a>My Visa Applications</a></li>
+              <li>
+                <Link to={"/"}>
+                  <a className="hover:text-primary">Home</a>
+                </Link>
+              </li>
+              <Link to={"/allVisa"}>
+                <li><a className="hover:text-primary">All Visas</a></li>
+              </Link>
+              <Link to={"/addVisa"}>
+                <li><a className="hover:text-primary">Add Visa</a></li>
+              </Link>
+              <Link to={"/myAddedVisas"}>
+                <li><a className="hover:text-primary">My Added Visas</a></li>
+              </Link>
+              <Link to={"/myVisaApplications"}>
+                <li><a className="hover:text-primary">My Visa Applications</a></li>
+              </Link>
             </ul>
           </div>
           <div className="flex items-center space-x-2">

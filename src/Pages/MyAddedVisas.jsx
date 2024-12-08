@@ -23,7 +23,7 @@ const MyAddedVisas = () => {
 
     const fetchVisas = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/addedVisas?email=${currentUser.email}`);
+        const response = await axios.get(`https://go-visa-flow-server-side.vercel.app/addedVisas?email=${currentUser.email}`);
         setVisas(response.data);
       } catch (err) {
         setError("NO VISA ADDED");
@@ -37,7 +37,7 @@ const MyAddedVisas = () => {
 
   const handleDelete = async (visaId) => {
     try {
-      await axios.delete(`http://localhost:5000/visas/${visaId}`);
+      await axios.delete(`https://go-visa-flow-server-side.vercel.app/visas/${visaId}`);
       setVisas(visas.filter((visa) => visa._id !== visaId));
       toast.success("Visa deleted successfully.");
     } catch (err) {
@@ -57,7 +57,7 @@ const MyAddedVisas = () => {
 
   const handleUpdateSubmit = async (updatedVisa) => {
     try {
-      await axios.put(`http://localhost:5000/visas/${updatedVisa._id}`, updatedVisa);
+      await axios.put(`https://go-visa-flow-server-side.vercel.app/visas/${updatedVisa._id}`, updatedVisa);
       setVisas(visas.map((visa) => (visa._id === updatedVisa._id ? updatedVisa : visa)));
       toast.success("Visa updated successfully.");
       handleModalClose();

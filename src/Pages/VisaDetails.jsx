@@ -15,7 +15,7 @@ const VisaDetails = () => {
   useEffect(() => {
     const fetchVisaDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/visas/${id}`);
+        const response = await axios.get(`https://go-visa-flow-server-side.vercel.app/visas/${id}`);
         setVisa(response.data);
       } catch (error) {
         toast.error("Failed to fetch visa details.");
@@ -30,7 +30,7 @@ const VisaDetails = () => {
     const formData = new FormData(event.target);
 
     try {
-      await axios.post("http://localhost:5000/visaApplications", {
+      await axios.post("https://go-visa-flow-server-side.vercel.app/visaApplications", {
         email: currentUser.email,
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
