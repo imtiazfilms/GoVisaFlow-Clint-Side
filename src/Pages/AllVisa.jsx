@@ -1,29 +1,23 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AllVisas = () => {
-  const [visas, setVisas] = useState([]); // All visas fetched from the API
-  const [filteredVisas, setFilteredVisas] = useState([]); // Visas after applying filters
-  const [visaTypes, setVisaTypes] = useState(["All"]); // Dropdown options
-  const [selectedType, setSelectedType] = useState("All"); // Currently selected type
+  const [visas, setVisas] = useState([]);
+  const [filteredVisas, setFilteredVisas] = useState([]);
+  const [selectedType, setSelectedType] = useState("All");
+  const navigate = useNavigate();
 
-  // Fetch visas from the API
+  const visaTypes = ["All", "Student visa", "Tourist visa", "Official visa"];
+
   useEffect(() => {
     const fetchVisas = async () => {
       try {
         const response = await fetch("http://localhost:5000/visas");
         if (response.ok) {
           const data = await response.json();
-
-          // Log the data for debugging
-          console.log("Fetched visas:", data);
-
           setVisas(data);
           setFilteredVisas(data);
-
-          // Extract unique visa types for the dropdown
-          const uniqueTypes = Array.from(new Set(data.map((visa) => visa.visa_type).filter(Boolean)));
-          setVisaTypes(["All", ...uniqueTypes]);
         } else {
           toast.error(`Failed to fetch visas. Status: ${response.status}`);
         }
@@ -36,15 +30,13 @@ const AllVisas = () => {
     fetchVisas();
   }, []);
 
-  // Handle dropdown changes
   const handleFilterChange = (event) => {
     const selected = event.target.value;
     setSelectedType(selected);
-
     if (selected === "All") {
       setFilteredVisas(visas);
     } else {
-      setFilteredVisas(visas.filter((visa) => visa.visa_type === selected));
+      setFilteredVisas(visas.filter((visa) => visa.visaType === selected));
     }
   };
 
@@ -72,42 +64,57 @@ const AllVisas = () => {
       </div>
 
       {/* Visa Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {filteredVisas.length === 0 ? (
-          <div className="col-span-3 text-center text-gray-500">
+          <div className="col-span-full text-center text-gray-500">
             No visas available for the selected filter.
           </div>
         ) : (
           filteredVisas.map((visa) => (
-            <div key={visa._id} className="card bg-white shadow-lg p-4 rounded-md">
+            <div
+              key={visa._id}
+              className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-200 hover:scale-105"
+            >
               {/* Country Flag */}
               <img
                 src={visa.countryImage}
                 alt={`${visa.country} flag`}
-                className="w-full h-[200px] object-cover rounded-md"
+                className="w-full h-[200px] object-cover rounded-t-lg"
               />
 
               {/* Visa Details */}
-              <h3 className="text-xl font-semibold mt-2">{visa.country}</h3>
-              <p>
-                <strong>Visa Type:</strong> {visa.visa_type}
-              </p>
-              <p>
-                <strong>Processing Time:</strong> {visa.processing_time}
-              </p>
-              <p>
-                <strong>Fee:</strong> {visa.fee}
-              </p>
-              <p>
-                <strong>Validity:</strong> {visa.validity}
-              </p>
-              <p>
-                <strong>Application Method:</strong> {visa.application_method}
-              </p>
+              <div className="p-4">
+                <h3 className="text-2xl font-semibold text-center text-gray-800">{visa.country}</h3>
+                <div className="text-gray-600 mt-2">
+                  <p>
+                    <strong>Country Name:</strong> {visa.countryName}
+                  </p>
+                  <p>
+                    <strong>Visa Type:</strong> {visa.visaType}
+                  </p>
+                  <p>
+                    <strong>Processing Time:</strong> {visa.processingTime}
+                  </p>
+                  <p>
+                    <strong>Fee:</strong> ${visa.fee}
+                  </p>
+                </div>
+
+                {/* Button to See Details */}
+                <div className="mt-4 text-center">
+                  <button
+                    onClick={() => navigate(`/visaDetails/${visa._id}`)}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+                  >
+                    See Details
+                  </button>
+                </div>
+              </div>
             </div>
           ))
         )}
       </div>
+
     </div>
   );
 };

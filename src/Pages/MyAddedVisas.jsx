@@ -26,7 +26,7 @@ const MyAddedVisas = () => {
         const response = await axios.get(`http://localhost:5000/addedVisas?email=${currentUser.email}`);
         setVisas(response.data);
       } catch (err) {
-        setError("Failed to fetch visas.");
+        setError("NO VISA ADDED");
       } finally {
         setLoading(false);
       }
