@@ -1,17 +1,23 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
-import { Navigate, useLocation } from "react-router-dom";
 import { authContext } from "../Components/AuthProvider";
+import { Navigate, useLocation} from "react-router-dom";
 
-const PrivateRoute = ({ children }) => {
-    const { user } = useContext(authContext);
-    const location = useLocation();
+const PrivetRoute = ({ children }) => {
+    const {user, loading} = useContext(authContext)
+    const location = useLocation()
 
-    if (!user) {
-        return <Navigate to="/login" state={{ from: location }} replace />;
+    if(loading){
+        return <div className="flex items-center justify-center">
+            <span className="loading loading-ball loading-lg"></span>
+
+        </div>
     }
 
-    return children;
+    if (!user) {
+        return <Navigate state={{from:location.pathname}} to="/login"></Navigate>;
+    }
+    return children
 };
 
-export default PrivateRoute;
+export default PrivetRoute;

@@ -83,7 +83,9 @@ const Navbar = () => {
               <li><a className="hover:text-primary">Add Visa</a></li>
             </Link>
             <li><a className="hover:text-primary">My Added Visas</a></li>
-            <li><a className="hover:text-primary">My Visa Applications</a></li>
+            <Link to={"/myVisaApplications"}>
+              <li><a className="hover:text-primary">My Visa Applications</a></li>
+            </Link>
           </ul>
         </div>
 
