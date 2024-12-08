@@ -4,16 +4,16 @@ import { toast } from "react-toastify";
 import { getAuth } from "firebase/auth";
 
 const MyVisaApplications = () => {
-  const [applications, setApplications] = useState([]); // Store user's applications
-  const [filteredApplications, setFilteredApplications] = useState([]); // Applications after filtering
-  const [searchTerm, setSearchTerm] = useState(""); // Search term input by the user
+  const [applications, setApplications] = useState([]);
+  const [filteredApplications, setFilteredApplications] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   useEffect(() => {
     const auth = getAuth();
     const currentUser = auth.currentUser;
 
     if (currentUser) {
-      fetchApplications(currentUser.email); // Fetch applications for the logged-in user
+      fetchApplications(currentUser.email); 
     } else {
       toast.error("Please log in to view your visa applications.");
     }
@@ -22,8 +22,8 @@ const MyVisaApplications = () => {
   const fetchApplications = async (email) => {
     try {
       const response = await axios.get(`http://localhost:5000/myApplications?email=${email}`);
-      setApplications(response.data); // Set applications data
-      setFilteredApplications(response.data); // Initialize filtered data
+      setApplications(response.data); 
+      setFilteredApplications(response.data); 
     } catch (error) {
       console.error("Error fetching applications:", error);
       toast.error("Failed to load applications.");
@@ -46,12 +46,10 @@ const MyVisaApplications = () => {
     }
   };
 
-  // Handle search input change
   const handleSearch = (e) => {
     const searchValue = e.target.value;
     setSearchTerm(searchValue);
 
-    // Filter applications based on the search term
     const filtered = applications.filter((application) =>
       application.countryName.toLowerCase().includes(searchValue.toLowerCase())
     );
@@ -61,8 +59,7 @@ const MyVisaApplications = () => {
   return (
     <div className="container mx-auto p-8">
       <h2 className="text-3xl font-semibold mb-6 text-gray-800">My Visa Applications</h2>
-
-      {/* Search Bar */}
+      
       <div className="mb-6 flex gap-4">
         <input
           type="text"
@@ -79,7 +76,6 @@ const MyVisaApplications = () => {
         </button>
       </div>
 
-      {/* Visa Applications */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredApplications.length === 0 ? (
           <div className="col-span-full text-center text-gray-600 text-lg">

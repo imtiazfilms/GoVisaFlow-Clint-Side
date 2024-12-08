@@ -52,10 +52,8 @@ const VisaDetails = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      {/* Visa Card */}
       <div className="bg-white shadow-lg rounded-lg w-full max-w-lg p-6">
         <div className="text-center mb-6">
-          {/* Country Name and Flag */}
           <h2 className="text-3xl font-semibold">{visa.country}</h2>
           <img
             src={visa.countryImage || "https://via.placeholder.com/300"}
@@ -64,7 +62,6 @@ const VisaDetails = () => {
           />
         </div>
 
-        {/* Visa Information */}
         <div className="space-y-4">
           <div>
             <p><strong>Country Name:</strong> {visa.countryName}</p>
@@ -75,7 +72,6 @@ const VisaDetails = () => {
           </div>
         </div>
 
-        {/* Apply Button */}
         <div className="mt-6">
           <button
             onClick={() => setModalOpen(true)}
@@ -86,7 +82,6 @@ const VisaDetails = () => {
         </div>
       </div>
 
-      {/* Modal for Applying */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">

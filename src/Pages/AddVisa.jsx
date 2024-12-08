@@ -42,13 +42,11 @@ const AddVisa = () => {
             return;
         }
 
-        // Include the user's email with the visa data
         const visaWithEmail = {
             ...visaData,
-            email: currentUser.email, // Add email here
+            email: currentUser.email, 
         };
 
-        // Send the visa data to the backend
         fetch("http://localhost:5000/visas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

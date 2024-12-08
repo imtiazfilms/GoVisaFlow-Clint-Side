@@ -9,7 +9,7 @@ const MyAddedVisas = () => {
   const [visas, setVisas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedVisa, setSelectedVisa] = useState(null); // For the update modal
+  const [selectedVisa, setSelectedVisa] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   const auth = getAuth();
@@ -106,12 +106,12 @@ const UpdateVisaModal = ({ visa, onClose, onSubmit }) => {
   
     const handleChange = (e) => {
       const { name, value } = e.target;
-      setUpdatedVisa({ ...updatedVisa, [name]: value }); // Ensure the right value is updated in the state
+      setUpdatedVisa({ ...updatedVisa, [name]: value });
     };
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log('Submitting updated visa:', updatedVisa);  // Debugging line to check what data is being submitted
+      console.log('Submitting updated visa:', updatedVisa);
       onSubmit(updatedVisa);
     };
   

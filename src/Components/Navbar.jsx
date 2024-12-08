@@ -1,26 +1,24 @@
 import { Link } from "react-router-dom";
-import { auth } from "../Firebase/firebase.config"; // Import Firebase auth
-import { signOut } from "firebase/auth"; // Import signOut method from Firebase
-import { useState, useEffect } from "react"; // Import useState and useEffect hooks
+import { auth } from "../Firebase/firebase.config";
+import { signOut } from "firebase/auth"; 
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null); // State to hold user data
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control the menu toggle
+  const [user, setUser] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
 
-  // Effect to check if the user is logged in
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser); // Set the user data if logged in
+      setUser(currentUser);
     });
 
-    return () => unsubscribe(); // Clean up the subscription on component unmount
+    return () => unsubscribe();
   }, []);
 
-  // Logout function
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Sign out the user
-      setUser(null); // Clear the user state after logout
+      await signOut(auth); 
+      setUser(null);
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -68,7 +66,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Navbar center (hidden on smaller screens) */}
+
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal space-x-4 font-semibold text-base">
             <li>
@@ -91,9 +89,7 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Navbar end section */}
         <div className="navbar-end space-x-3">
-          {/* If the user is not logged in, show Sign In and Register buttons */}
           {!user ? (
             <>
               <Link to={"/login"}>
@@ -104,11 +100,10 @@ const Navbar = () => {
               </Link>
             </>
           ) : (
-            // If the user is logged in, show the user's photo, name on click, and logout option
             <div className="relative">
               <div
                 className="flex items-center space-x-2 cursor-pointer"
-                onClick={() => setIsMenuOpen(!isMenuOpen)} // Toggle menu on click
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 <img
                   className="h-10 w-10 rounded-full"
@@ -117,13 +112,12 @@ const Navbar = () => {
                 />
               </div>
 
-              {/* Dropdown menu with user's display name and logout button */}
               {isMenuOpen && (
                 <div className="absolute top-12 right-0 bg-white p-3 rounded-lg shadow-lg w-40 z-10">
                   <p className="text-sm font-semibold">{user.displayName || "User"}</p>
                   <button
                     className="mt-2 text-red-500 text-sm"
-                    onClick={handleLogout} // Handle logout when the button is clicked
+                    onClick={handleLogout}
                   >
                     Logout
                   </button>

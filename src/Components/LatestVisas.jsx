@@ -9,8 +9,8 @@ const LatestVisas = () => {
   useEffect(() => {
     const fetchLatestVisas = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/visas"); // Get visas data from API
-        setVisas(response.data.slice(0, 6)); // Get the 6 latest visas
+        const response = await axios.get("http://localhost:5000/visas");
+        setVisas(response.data.slice(0, 6)); 
       } catch (error) {
         console.error("Error fetching visas:", error);
       }
@@ -32,7 +32,6 @@ const LatestVisas = () => {
               visa._id % 2 === 0 ? "bg-white" : "bg-gray-800"
             } shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow transform scale-95 hover:scale-100`}
           >
-            {/* Visa Card Image */}
             <img
               src={visa.countryImage}
               alt={`${visa.country} flag`}
@@ -43,10 +42,8 @@ const LatestVisas = () => {
                 visa._id % 2 === 0 ? "text-gray-800" : "text-gray-200"
               } p-4`}
             >
-              {/* Country & Visa Type */}
               <h3 className="text-xl font-semibold">{visa.country}</h3>
               <p className="text-sm">{visa.visaType}</p>
-              {/* Processing Time, Fee, Validity */}
               <p className="mt-2 text-sm">
                 <strong>Processing Time:</strong> {visa.processingTime}
               </p>
@@ -56,11 +53,9 @@ const LatestVisas = () => {
               <p className="mt-2 text-sm">
                 <strong>Validity:</strong> {visa.validity}
               </p>
-              {/* Application Method */}
               <p className="mt-2 text-sm">
                 <strong>Application Method:</strong> {visa.applicationMethod}
               </p>
-              {/* "See Details" Button */}
               <button
                 onClick={() => navigate(`/visaDetails/${visa._id}`)}
                 className="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -72,7 +67,6 @@ const LatestVisas = () => {
         ))}
       </div>
 
-      {/* "See All Visas" Button */}
       <div className="text-center mt-6">
         <button
           onClick={() => navigate("/allVisa")}

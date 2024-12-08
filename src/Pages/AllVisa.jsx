@@ -44,7 +44,6 @@ const AllVisas = () => {
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-semibold mb-4">All Visas</h2>
 
-      {/* Dropdown Menu */}
       <div className="mb-4">
         <label htmlFor="visaTypeFilter" className="mr-2 font-medium">
           Filter by Visa Type:
@@ -63,7 +62,6 @@ const AllVisas = () => {
         </select>
       </div>
 
-      {/* Visa Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {filteredVisas.length === 0 ? (
           <div className="col-span-full text-center text-gray-500">
@@ -75,14 +73,11 @@ const AllVisas = () => {
               key={visa._id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-200 hover:scale-105"
             >
-              {/* Country Flag */}
               <img
                 src={visa.countryImage}
                 alt={`${visa.country} flag`}
                 className="w-full h-[200px] object-cover rounded-t-lg"
               />
-
-              {/* Visa Details */}
               <div className="p-4">
                 <h3 className="text-2xl font-semibold text-center text-gray-800">{visa.country}</h3>
                 <div className="text-gray-600 mt-2">
@@ -100,7 +95,6 @@ const AllVisas = () => {
                   </p>
                 </div>
 
-                {/* Button to See Details */}
                 <div className="mt-4 text-center">
                   <button
                     onClick={() => navigate(`/visaDetails/${visa._id}`)}
