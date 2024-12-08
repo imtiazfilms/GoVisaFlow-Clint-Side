@@ -1,50 +1,115 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const AllVisa = () => {
-  const [visas, setVisas] = useState([]); // State to store visa data
-  const [loading, setLoading] = useState(true); // State to track loading status
+const AllVisas = () => {
+  const [visas, setVisas] = useState([]); // All visas fetched from the API
+  const [filteredVisas, setFilteredVisas] = useState([]); // Visas after applying filters
+  const [visaTypes, setVisaTypes] = useState(["All"]); // Dropdown options
+  const [selectedType, setSelectedType] = useState("All"); // Currently selected type
 
-  // Fetch visa data from the backend when the component mounts
+  // Fetch visas from the API
   useEffect(() => {
     const fetchVisas = async () => {
       try {
-        const response = await fetch("http://localhost:5000/visas"); // Replace with your server URL
-        const data = await response.json();
-        setVisas(data); // Store the visa data
-        setLoading(false); // Set loading to false after fetching data
+        const response = await fetch("http://localhost:5000/visas");
+        if (response.ok) {
+          const data = await response.json();
+
+          // Log the data for debugging
+          console.log("Fetched visas:", data);
+
+          setVisas(data);
+          setFilteredVisas(data);
+
+          // Extract unique visa types for the dropdown
+          const uniqueTypes = Array.from(new Set(data.map((visa) => visa.visa_type).filter(Boolean)));
+          setVisaTypes(["All", ...uniqueTypes]);
+        } else {
+          toast.error(`Failed to fetch visas. Status: ${response.status}`);
+        }
       } catch (error) {
         console.error("Error fetching visas:", error);
-        setLoading(false); // Stop loading if there's an error
+        toast.error("Failed to load visas. Please try again later.");
       }
     };
 
     fetchVisas();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>; // Show loading message while data is being fetched
-  }
+  // Handle dropdown changes
+  const handleFilterChange = (event) => {
+    const selected = event.target.value;
+    setSelectedType(selected);
+
+    if (selected === "All") {
+      setFilteredVisas(visas);
+    } else {
+      setFilteredVisas(visas.filter((visa) => visa.visa_type === selected));
+    }
+  };
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">All Visas</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {visas.map(visa => (
-          <div key={visa._id} className="card p-4 border rounded-md shadow-lg">
-            <img className="rounded" src={visa.countryImage} alt="" />
-            <br />
-            <p><strong>Country:</strong> {visa.countryName}</p>
-            <p><strong>Visa Type:</strong> {visa.visaType}</p>
-            <p><strong>Fee:</strong> ${visa.fee}</p>
-            <Link to={`/visaDetails/${visa._id}`} className="btn btn-primary mt-4">
-              See Details
-            </Link>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-semibold mb-4">All Visas</h2>
+
+      {/* Dropdown Menu */}
+      <div className="mb-4">
+        <label htmlFor="visaTypeFilter" className="mr-2 font-medium">
+          Filter by Visa Type:
+        </label>
+        <select
+          id="visaTypeFilter"
+          className="border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
+          value={selectedType}
+          onChange={handleFilterChange}
+        >
+          {visaTypes.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Visa Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {filteredVisas.length === 0 ? (
+          <div className="col-span-3 text-center text-gray-500">
+            No visas available for the selected filter.
           </div>
-        ))}
+        ) : (
+          filteredVisas.map((visa) => (
+            <div key={visa._id} className="card bg-white shadow-lg p-4 rounded-md">
+              {/* Country Flag */}
+              <img
+                src={visa.countryImage}
+                alt={`${visa.country} flag`}
+                className="w-full h-[200px] object-cover rounded-md"
+              />
+
+              {/* Visa Details */}
+              <h3 className="text-xl font-semibold mt-2">{visa.country}</h3>
+              <p>
+                <strong>Visa Type:</strong> {visa.visa_type}
+              </p>
+              <p>
+                <strong>Processing Time:</strong> {visa.processing_time}
+              </p>
+              <p>
+                <strong>Fee:</strong> {visa.fee}
+              </p>
+              <p>
+                <strong>Validity:</strong> {visa.validity}
+              </p>
+              <p>
+                <strong>Application Method:</strong> {visa.application_method}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
 };
 
-export default AllVisa;
+export default AllVisas;

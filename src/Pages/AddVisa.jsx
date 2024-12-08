@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { getAuth } from "firebase/auth";
 
 const AddVisa = () => {
     const [visaData, setVisaData] = useState({
@@ -33,11 +34,25 @@ const AddVisa = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Replace the following with your database/API call logic
+        const auth = getAuth();
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            toast.error("You need to be logged in to add a visa.");
+            return;
+        }
+
+        // Include the user's email with the visa data
+        const visaWithEmail = {
+            ...visaData,
+            email: currentUser.email, // Add email here
+        };
+
+        // Send the visa data to the backend
         fetch("http://localhost:5000/visas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(visaData),
+            body: JSON.stringify(visaWithEmail),
         })
             .then((res) => res.json())
             .then(() => {

@@ -82,7 +82,9 @@ const Navbar = () => {
             <Link to={"/addVisa"}>
               <li><a className="hover:text-primary">Add Visa</a></li>
             </Link>
-            <li><a className="hover:text-primary">My Added Visas</a></li>
+            <Link to={"/myAddedVisas"}>
+              <li><a className="hover:text-primary">My Added Visas</a></li>
+            </Link>
             <Link to={"/myVisaApplications"}>
               <li><a className="hover:text-primary">My Visa Applications</a></li>
             </Link>

@@ -56,7 +56,7 @@ const routes = createBrowserRouter([
                 element: <PrivateRoute>
                     <MyAddedVisas></MyAddedVisas>
                 </PrivateRoute>
-            }
+            },
         ]
     },
     {
