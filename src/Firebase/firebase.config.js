@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBHPm7zyEUrfY7MirvJZHUKq5KLud3Ysiw",
-  authDomain: "govisaflow.firebaseapp.com",
-  projectId: "govisaflow",
-  storageBucket: "govisaflow.firebasestorage.app",
-  messagingSenderId: "467293920462",
-  appId: "1:467293920462:web:9eb4acdf929b2f36b0849f"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
