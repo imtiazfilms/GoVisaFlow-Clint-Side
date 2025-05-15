@@ -8,7 +8,7 @@ const MyVisaApplications = () => {
   const [applications, setApplications] = useState([]);
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false); // <-- added loading state
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -23,7 +23,7 @@ const MyVisaApplications = () => {
 
   const fetchApplications = async (email) => {
     try {
-      setLoading(true); // start loading
+      setLoading(true);
       const response = await axios.get(`https://go-visa-flow-server-side.vercel.app/myApplications?email=${email}`);
       setApplications(response.data);
       setFilteredApplications(response.data);
@@ -31,7 +31,7 @@ const MyVisaApplications = () => {
       console.error("Error fetching applications:", error);
       toast.error("Failed to load applications.");
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
 

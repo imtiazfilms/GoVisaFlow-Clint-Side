@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
-import Loader from "../Components/Loader"; // Adjust the path if needed
+import Loader from "../Components/Loader";
 
 const MyAddedVisas = () => {
   const [visas, setVisas] = useState([]);

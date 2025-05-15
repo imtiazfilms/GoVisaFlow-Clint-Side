@@ -9,7 +9,7 @@ const Contact = () => {
         </p>
 
         <p>
-          With a wide range of visa services, real-time tracking, and expert guidance, Go Visa Flow ensures your application process is smooth and successful. Whether you're applying for a tourist visa, student visa, or work visa, we've got you covered.
+          With a wide range of visa services, real-time tracking, and expert guidance, Go Visa Flow ensures your application process is smooth and successful. Whether you&#39;re applying for a tourist visa, student visa, or work visa, we&#39;ve got you covered.
         </p>
 
         <p>

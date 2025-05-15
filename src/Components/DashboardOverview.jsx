@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
-import Loader from "./Loader"; // Make sure the path is correct
+import Loader from "./Loader";
 
 const DashboardOverview = () => {
   const auth = getAuth();
