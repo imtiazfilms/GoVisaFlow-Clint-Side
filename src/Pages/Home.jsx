@@ -1,42 +1,22 @@
-import { useState, useEffect } from 'react';
 import LatestVisas from '../Components/LatestVisas';
 import ExtraSection1 from '../Components/ExtraSection1';
-import ExtraSection2 from '../Components/ExtraSection2';
 import Banner from '../Components/Banner';
-import { MdOutlineWbSunny } from 'react-icons/md';
-import { FaMoon } from 'react-icons/fa';
+import HowWeWork from '../Components/HowWeWork';
+import FAQ from '../Components/FAQ';
+import VisaNews from '../Components/VisaNews';
+import PopularDestinations from '../Components/PopularDestinations';
 
 const Home = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDarkMode(prevMode => {
-      const newMode = !prevMode;
-      localStorage.setItem('theme', newMode ? 'dark' : 'light');
-      return newMode;
-    });
-  };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-colors duration-300`}>
-      <button
-        onClick={toggleTheme}
-        className="absolute md:top-4 md:right-4 top-8 right-8 p-2 bg-white/80 text-black/80 rounded-full shadow-md focus:outline-none"
-      >
-        {isDarkMode ? <MdOutlineWbSunny /> : <FaMoon />}
-      </button>
-
+    <div>
       <Banner />
       <LatestVisas />
       <ExtraSection1 />
-      <ExtraSection2 />
+      <PopularDestinations></PopularDestinations>
+      <HowWeWork></HowWeWork>
+      <VisaNews></VisaNews>
+      <FAQ></FAQ>
     </div>
   );
 };

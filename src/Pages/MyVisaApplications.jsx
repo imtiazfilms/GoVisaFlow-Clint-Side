@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getAuth } from "firebase/auth";
+import Loader from "../Components/Loader";
 
 const MyVisaApplications = () => {
   const [applications, setApplications] = useState([]);
   const [filteredApplications, setFilteredApplications] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false); // <-- added loading state
 
   useEffect(() => {
     const auth = getAuth();
     const currentUser = auth.currentUser;
 
     if (currentUser) {
-      fetchApplications(currentUser.email); 
+      fetchApplications(currentUser.email);
     } else {
       toast.error("Please log in to view your visa applications.");
     }
@@ -21,24 +23,23 @@ const MyVisaApplications = () => {
 
   const fetchApplications = async (email) => {
     try {
+      setLoading(true); // start loading
       const response = await axios.get(`https://go-visa-flow-server-side.vercel.app/myApplications?email=${email}`);
-      setApplications(response.data); 
-      setFilteredApplications(response.data); 
+      setApplications(response.data);
+      setFilteredApplications(response.data);
     } catch (error) {
       console.error("Error fetching applications:", error);
       toast.error("Failed to load applications.");
+    } finally {
+      setLoading(false); // stop loading
     }
   };
 
   const handleCancelApplication = async (applicationId) => {
     try {
       await axios.delete(`https://go-visa-flow-server-side.vercel.app/visaApplications/${applicationId}`);
-      setApplications((prevApplications) =>
-        prevApplications.filter((app) => app._id !== applicationId)
-      );
-      setFilteredApplications((prevFilteredApplications) =>
-        prevFilteredApplications.filter((app) => app._id !== applicationId)
-      );
+      setApplications((prev) => prev.filter((app) => app._id !== applicationId));
+      setFilteredApplications((prev) => prev.filter((app) => app._id !== applicationId));
       toast.success("Visa application cancelled successfully.");
     } catch (error) {
       console.error("Error cancelling application:", error);
@@ -56,10 +57,14 @@ const MyVisaApplications = () => {
     setFilteredApplications(filtered);
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="container mx-auto p-8">
+    <div className="w-full max-w-5xl mx-auto p-4">
       <h2 className="text-3xl font-semibold mb-6 text-gray-800">My Visa Applications</h2>
-      
+
       <div className="mb-6 flex gap-4">
         <input
           type="text"
@@ -69,7 +74,7 @@ const MyVisaApplications = () => {
           className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
         />
         <button
-          onClick={() => handleSearch()}
+          onClick={() => handleSearch({ target: { value: searchTerm } })}
           className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         >
           Search
@@ -85,7 +90,7 @@ const MyVisaApplications = () => {
           filteredApplications.map((application) => (
             <div key={application._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
               <img
-                src="https://i.ibb.co.com/crcR0X1/DALL-E-2024-12-05-21-26-00-A-modern-and-minimalistic-SVG-icon-for-a-visa-navigator-website-named-Go.webp"
+                src="https://i.ibb.co/crcR0X1/DALL-E-2024-12-05-21-26-00-A-modern-and-minimalistic-SVG-icon-for-a-visa-navigator-website-named-Go.webp"
                 alt="Visa"
                 className="w-full h-48 object-scale-down"
               />
@@ -96,7 +101,9 @@ const MyVisaApplications = () => {
                 <p className="text-gray-600 mt-2">Visa ID: {application.visaId}</p>
                 <p className="text-gray-600 mt-1">Country: {application.countryName}</p>
                 <p className="text-gray-600 mt-1">Applied on: {new Date(application.appliedDate).toLocaleDateString()}</p>
-                <p className="text-gray-600 mt-1">Fee: <span className="font-semibold text-green-600">${application.fee}</span></p>
+                <p className="text-gray-600 mt-1">
+                  Fee: <span className="font-semibold text-green-600">${application.fee}</span>
+                </p>
                 <p className="text-gray-600 mt-1">Email: {application.email}</p>
                 <button
                   onClick={() => handleCancelApplication(application._id)}

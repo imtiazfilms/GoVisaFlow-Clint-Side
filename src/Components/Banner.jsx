@@ -10,7 +10,7 @@ const Banner = () => {
         alt="Visa Banner"
         className="w-full h-auto object-cover"
       />
-      <div className="absolute top-10 left-0 right-0 flex flex-col items-center justify-center py-12 px-4 sm:px-8 md:px-12 bg-opacity-60 text-black/80">
+      <div className="absolute hidden  top-10 left-0 right-0 md:flex flex-col items-center justify-center py-12 px-4 sm:px-8 md:px-12 bg-opacity-60 text-black/80 lg:mt-16">
         <Fade duration={1500} distance="30px" triggerOnce>
           <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
             Welcome to GoVisaFlow
@@ -37,7 +37,7 @@ const Banner = () => {
           </div>
         </Fade>
       </div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-4 sm:px-8 lg:w-3/4 xl:w-1/2">
+      <div className="absolute top-2 lg:top-80 md:top-56 lg:pb-56 sm:bottom-8 left-1/2 transform -translate-x-1/2 w-[90%] sm:w-4/5 md:w-3/5 lg:w-1/2">
         <Slider />
       </div>
     </div>

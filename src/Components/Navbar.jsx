@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { auth } from "../Firebase/firebase.config";
 import { signOut } from "firebase/auth";
 import { useState, useEffect } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +26,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-base-100 shadow-md">
+    <div className="bg-base-100 shadow-md fixed top-0 z-50 w-full">
       <div className="navbar container mx-auto">
         <div className="navbar-start flex justify-between items-center w-full">
           <div className="dropdown lg:hidden">
@@ -57,14 +58,8 @@ const Navbar = () => {
               <Link to={"/allVisa"}>
                 <li><a className="hover:text-primary">All Visas</a></li>
               </Link>
-              <Link to={"/addVisa"}>
-                <li><a className="hover:text-primary">Add Visa</a></li>
-              </Link>
-              <Link to={"/myAddedVisas"}>
-                <li><a className="hover:text-primary">My Added Visas</a></li>
-              </Link>
-              <Link to={"/myVisaApplications"}>
-                <li><a className="hover:text-primary">My Visa Applications</a></li>
+              <Link to={"/contact"}>
+                <li><a className="hover:text-primary">Contact</a></li>
               </Link>
             </ul>
           </div>
@@ -89,15 +84,9 @@ const Navbar = () => {
             <Link to={"/allVisa"}>
               <li><a className="hover:text-primary">All Visas</a></li>
             </Link>
-            <Link to={"/addVisa"}>
-              <li><a className="hover:text-primary">Add Visa</a></li>
-            </Link>
-            <Link to={"/myAddedVisas"}>
-              <li><a className="hover:text-primary">My Added Visas</a></li>
-            </Link>
-            <Link to={"/myVisaApplications"}>
-              <li><a className="hover:text-primary">My Visa Applications</a></li>
-            </Link>
+             <Link to={"/contact"}>
+                <li><a className="hover:text-primary">Contact</a></li>
+              </Link>
           </ul>
         </div>
 
@@ -105,10 +94,10 @@ const Navbar = () => {
           {!user ? (
             <>
               <Link to={"/login"}>
-                <a className="btn">Sign In</a>
+                <a className="btn btn-sm outline w-24">Sign In</a>
               </Link>
               <Link to={"/register"}>
-                <a className="btn">Register</a>
+                <a className="btn btn-sm outline">Register</a>
               </Link>
             </>
           ) : (
@@ -119,14 +108,19 @@ const Navbar = () => {
               >
                 <img
                   className="h-10 w-10 rounded-full"
-                  src={user.photoURL || "https://via.placeholder.com/150"}
+                  src={user.photoURL || "https://i.ibb.co/LdpFsnV/icons8-user-avatar-94.png"}
                   alt="User"
                 />
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-12 right-0 bg-white p-3 rounded-lg shadow-lg w-40 z-10">
-                  <p className="text-sm font-semibold">{user.displayName || "User"}</p>
+                <div className="absolute top-12 right-0 bg-white p-3 rounded-lg shadow-lg w-40 z-10 space-y-2">
+                  <NavLink className={"text-black hover:text-teal-500 transition-colors duration-200"} to="/dashboard">
+                    Dashboard
+                  </NavLink>
+
+                  <p className="text-sm font-semibold text-black">{user.displayName || "User"}</p>
+
                   <button
                     className="mt-2 text-red-500 text-sm"
                     onClick={handleLogout}
@@ -138,6 +132,7 @@ const Navbar = () => {
             </div>
           )}
         </div>
+        <ThemeToggle></ThemeToggle>
       </div>
     </div>
   );

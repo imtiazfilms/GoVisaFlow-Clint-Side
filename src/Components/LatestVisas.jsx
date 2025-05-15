@@ -20,7 +20,7 @@ const LatestVisas = () => {
   }, []);
 
   return (
-    <div className="p-6">
+    <div className="w-[95%] mx-auto my-12">
       <h2 className="text-3xl font-semibold text-center mb-6">
         Latest Visas
       </h2>

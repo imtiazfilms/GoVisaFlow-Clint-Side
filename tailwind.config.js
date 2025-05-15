@@ -1,6 +1,8 @@
-import daisyui from 'daisyui';
-
 /** @type {import('tailwindcss').Config} */
+
+import daisyui from 'daisyui';
+import filters from 'tailwindcss-filters';
+
 export default {
   content: [
     "./index.html",
@@ -10,6 +12,10 @@ export default {
     extend: {},
   },
   plugins: [
-    daisyui
+    daisyui,
+    filters,
   ],
+  daisyui: {
+    themes: ["nord", "night", ],
+  },
 }
