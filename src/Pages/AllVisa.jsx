@@ -46,84 +46,101 @@ const AllVisas = () => {
   };
 
   return (
-    <div className="container mx-auto p-10 mt-20 mb-10">
-      <h2 className="text-4xl font-extrabold mb-10 text-center text-blue-700">
-        🌍 Explore All Visa Opportunities
-      </h2>
+    <div className="min-h-screen px-4 py-20">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-4xl font-extrabold mb-12 text-center text-blue-700">
+          🌍 Explore All Visa Opportunities
+        </h2>
 
-      {/* Filter + Search */}
-      <div className="mb-6 flex flex-col lg:flex-row items-start lg:items-center gap-4">
-        <div>
-          <label htmlFor="visaTypeFilter" className="mr-2 font-medium">
-            Filter by Visa Type:
-          </label>
-          <select
-            id="visaTypeFilter"
-            className="border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
-            value={selectedType}
-            onChange={handleFilterChange}
-          >
-            {visaTypes.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+        {/* Filters */}
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-6 mb-10 bg-white/20 p-6 rounded-xl shadow-md">
+          <div className="w-full lg:w-1/3">
+            <label className="block text-sm font-medium mb-1">Filter by Visa Type:</label>
+            <select
+              value={selectedType}
+              onChange={handleFilterChange}
+              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              {visaTypes.map((type, i) => (
+                <option key={i} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="w-full lg:w-1/2">
+            <label className="block text-sm font-medium mb-1">Search by Country:</label>
+            <input
+              type="text"
+              placeholder="Enter country name..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
         </div>
 
-        <div className="flex-grow w-full lg:w-1/2">
-          <input
-            type="text"
-            placeholder="Search by country name..."
-            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-        </div>
-      </div>
+        {/* Content */}
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {filteredVisas
+              .filter((visa) =>
+                visa.countryName.toLowerCase().includes(searchText.toLowerCase())
+              )
+              .map((visa) => (
+                <div
+                  key={visa._id}
+                  className="relative bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
+                >
+                  {/* Badge */}
+                  <span className="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded-full shadow animate-pulse">
+                    {visa.visaType}
+                  </span>
 
-      {/* Loader or Visa Grid */}
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredVisas
-            .filter((visa) =>
-              visa.countryName.toLowerCase().includes(searchText.toLowerCase())
-            )
-            .map((visa) => (
-              <div
-                key={visa._id}
-                className="bg-white shadow-md rounded-lg overflow-hidden transform transition-transform duration-200 hover:scale-105"
-              >
-                <img
-                  src={visa.countryImage}
-                  alt={`${visa.country} flag`}
-                  className="w-full h-[200px] object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold text-center text-gray-800">
-                    {visa.country}
-                  </h3>
-                  <div className="text-gray-600 mt-2 space-y-1">
-                    <p><strong>Country Name:</strong> {visa.countryName}</p>
-                    <p><strong>Visa Type:</strong> {visa.visaType}</p>
-                    <p><strong>Processing Time:</strong> {visa.processingTime}</p>
-                    <p><strong>Fee:</strong> ${visa.fee}</p>
-                  </div>
-                  <div className="mt-4 text-center">
+                  <img
+                    src={visa.countryImage}
+                    alt={`${visa.country} image`}
+                    className="w-full h-48 object-cover rounded-t-2xl"
+                  />
+
+                  <div className="p-5 text-center">
+                    <h3 className="text-lg font-semibold text-blue-900">
+                      {visa.country}
+                    </h3>
+
+                    <div className="text-sm text-base-content  mt-3 space-y-1">
+                      <p><strong>Country:</strong> {visa.countryName}</p>
+                      <p><strong>Processing:</strong> {visa.processingTime}</p>
+                      <p><strong>Fee:</strong> ${visa.fee}</p>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap justify-center gap-2">
+                      <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
+                        {visa.visaType}
+                      </span>
+                      <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">
+                        {visa.processingTime}
+                      </span>
+                      <span className="bg-yellow-100 text-yellow-700 text-xs px-3 py-1 rounded-full">
+                        ${visa.fee}
+                      </span>
+                    </div>
+
                     <button
                       onClick={() => navigate(`/visaDetails/${visa._id}`)}
-                      className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+                      className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all duration-300"
                     >
                       See Details
                     </button>
                   </div>
                 </div>
-              </div>
-            ))}
-        </div>
-      )}
+              ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

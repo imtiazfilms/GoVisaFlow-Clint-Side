@@ -12,9 +12,19 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex">
-      <DashboardSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div className={`flex-1 ${sidebarOpen ? 'ml-64' : ''} transition-all duration-300`}>
+    <div className="flex overflow-x-hidden min-h-screen">
+      <DashboardSidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      <div
+        className={`
+          flex-1
+          transition-all duration-300 ease-in-out
+          ${sidebarOpen ? "ml-64" : "ml-0"} md:ml-64
+        `}
+      >
         <DashboardNavbar toggleSidebar={toggleSidebar} />
         <div className="p-6 mt-16">
           <Outlet />

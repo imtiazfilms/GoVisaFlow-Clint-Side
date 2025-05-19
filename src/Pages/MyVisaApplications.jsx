@@ -63,7 +63,7 @@ const MyVisaApplications = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-4">
-      <h2 className="text-3xl font-semibold mb-6 text-gray-800">My Visa Applications</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-base-content">My Visa Applications</h2>
 
       <div className="mb-6 flex gap-4">
         <input
